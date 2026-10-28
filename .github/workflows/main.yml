@@ -14,15 +14,15 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-      - name: Gradle 8.5 설정
+      - name: Gradle 8.5 설정 (캐시 없이)
         uses: gradle/actions/setup-gradle@v3
         with:
           gradle-version: 8.5
+          cache-disabled: true
       - name: APK 빌드
-        run: gradle assembleDebug --stacktrace
+        run: gradle assembleDebug --no-daemon --stacktrace
       - name: APK 업로드
         uses: actions/upload-artifact@v4
         with:
           name: 슬라파일럿-APK
           path: app/build/outputs/apk/debug/app-debug.apk
-          if-no-files-found: error
