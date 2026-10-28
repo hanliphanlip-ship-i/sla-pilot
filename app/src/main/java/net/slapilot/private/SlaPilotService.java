@@ -10,7 +10,7 @@ public class SlaPilotService extends Service {
         ((NotificationManager)getSystemService(NOTIFICATION_SERVICE)).createNotificationChannel(ch);
         Notification n = new Notification.Builder(this,"slapilot")
             .setContentTitle("슬라 파일럿 실행중")
-            .setContentText("모델 Y 2024 자동화 대기중")
+            .setContentText("모델 Y 2024")
             .setSmallIcon(android.R.drawable.ic_media_play)
             .build();
         startForeground(1,n);

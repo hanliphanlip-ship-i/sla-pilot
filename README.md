@@ -1,1 +1,1 @@
-# 슬라 파일럿 - 최종 빌드 성공 버전
+# SlaPilot - Ultimate fixed version with res folder
