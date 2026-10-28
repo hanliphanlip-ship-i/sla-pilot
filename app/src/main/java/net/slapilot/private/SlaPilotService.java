@@ -4,7 +4,8 @@ import android.app.*;
 import android.content.Intent;
 import android.os.IBinder;
 public class SlaPilotService extends Service {
-    @Override public int onStartCommand(Intent intent, int flags, int startId){
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId){
         NotificationChannel ch = new NotificationChannel("slapilot","슬라 파일럿", NotificationManager.IMPORTANCE_LOW);
         ((NotificationManager)getSystemService(NOTIFICATION_SERVICE)).createNotificationChannel(ch);
         Notification n = new Notification.Builder(this,"slapilot")

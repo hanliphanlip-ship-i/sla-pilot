@@ -1,5 +1,7 @@
 
-plugins { id 'com.android.application' }
+plugins {
+    id 'com.android.application'
+}
 android {
     namespace 'net.slapilot.private'
     compileSdk 34
@@ -7,12 +9,12 @@ android {
         applicationId "net.slapilot.private"
         minSdk 26
         targetSdk 34
-        versionCode 1
-        versionName "2.1.1"
+        versionCode 3
+        versionName "3.0"
     }
     buildTypes {
-        release { minifyEnabled false }
         debug { minifyEnabled false }
+        release { minifyEnabled false }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
