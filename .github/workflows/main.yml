@@ -1,4 +1,4 @@
-name: JK Model Y Pilot Android APK
+name: JK Model Y Pilot PRO 3.0 APK
 on:
   push:
     branches: [jk-modely-pilot-build]
@@ -16,23 +16,31 @@ jobs:
           java-version: '17'
       - name: Install Android SDK
         run: |
-          echo "ANDROID_HOME=$ANDROID_HOME"
           yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses || true
           "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" 'platforms;android-35' 'build-tools;35.0.0'
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
-      - name: Unpack JK Model Y Pilot
+      - name: Unpack PRO 3.0 source
         run: |
-          mkdir -p jkproject
-          base64 --decode jk-modely-pilot-source.tar.xz.b64 | tar -xJ -C jkproject
-          test -f jkproject/app/src/main/java/com/jk/modelypilot/MainActivity.java
-      - name: Compile APK
-        working-directory: jkproject
+          mkdir -p jkpro
+          base64 --decode jk-modely-pro-source.tar.xz.b64 | tar -xJ -C jkpro
+          test -f jkpro/app/src/main/java/com/jk/modelypilot/MainActivity.java
+      - name: Unit tests
+        working-directory: jkpro
+        run: |
+          mkdir -p build/tests
+          javac -d build/tests app/src/main/java/com/jk/modelypilot/PilotMath.java app/src/main/java/com/jk/modelypilot/BatteryMath.java tests/PilotMathTest.java tests/BatteryMathTest.java
+          java -cp build/tests PilotMathTest
+          java -cp build/tests BatteryMathTest
+          javac -d build/tests tests/fakeandroid/android/content/Context.java app/src/main/java/com/jk/modelypilot/CameraCsv.java tests/CameraCsvTest.java
+          java -cp build/tests CameraCsvTest
+      - name: Compile PRO 3.0 APK
+        working-directory: jkpro
         run: gradle --no-daemon :app:assembleDebug --stacktrace
-      - name: Upload APK
+      - name: Upload Installable APK
         uses: actions/upload-artifact@v4
         with:
-          name: JK-ModelY-Pilot-APK
-          path: jkproject/app/build/outputs/apk/debug/app-debug.apk
+          name: JK-ModelY-Pilot-PRO-v3-APK
+          path: jkpro/app/build/outputs/apk/debug/app-debug.apk
           retention-days: 14
